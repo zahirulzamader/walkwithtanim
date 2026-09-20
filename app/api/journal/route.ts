@@ -6,6 +6,9 @@ import { isAdmin } from '@/lib/admin-auth'
 
 export async function GET() {
   try {
+    if (!prisma) {
+      return NextResponse.json({ success: true, entries: [] })
+    }
     const entries = await prisma.journalEntry.findMany({
       orderBy: { createdAt: 'desc' },
     })
@@ -22,6 +25,13 @@ export async function POST(request: Request) {
       return NextResponse.json(
         { success: false, message: 'You are not authorized to add stories.' },
         { status: 401 }
+      )
+    }
+
+    if (!prisma) {
+      return NextResponse.json(
+        { success: false, message: 'Database not configured yet.' },
+        { status: 503 }
       )
     }
 
