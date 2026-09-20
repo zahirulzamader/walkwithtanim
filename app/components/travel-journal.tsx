@@ -46,7 +46,7 @@ const defaultEntries: JournalEntry[] = [
     experience:
       'Rome became home. Living among two thousand years of history — waking near the Colosseum, wandering Trastevere at golden hour, and welcoming travelers from every corner of the world at Ancient Roman Tours. Every cobblestone here tells a story, and I get to be part of it every single day.',
     gettingThere:
-      'I moved to Italy for work after my time in the Baltics. An employer-sponsored national work visa (Nulla Osta) followed by a residence permit (Permesso di Soggiorno) made settling in Rome possible.',
+      'I moved to Italy to continue my studies after my time in the Baltics. A national student visa followed by a study residence permit (Permesso di Soggiorno per studio) made settling in Rome possible.',
     tips:
       'Visitors from most countries can enter visa-free for up to 90 days within the Schengen Area. Base yourself near Termini for easy transport, get the Roma Pass for museums, and drink freely from the street fountains (nasoni) — the water is fresh and free.',
   },
@@ -70,7 +70,7 @@ const defaultEntries: JournalEntry[] = [
     experience:
       'Riga is where my European journey began. Working the front desk of a boutique hotel and serving tourists at Chili Pizza, I learned hospitality in one of the Baltics’ most beautiful Art Nouveau cities — and fell in love with its snowy winters.',
     gettingThere:
-      'I arrived in Latvia on a work-based residence permit sponsored through hospitality employment. It was my first foothold in Europe and my gateway into the Schengen Area.',
+      'I arrived in Latvia as an international student, on a study-based residence permit. It was my first foothold in Europe and my gateway into the Schengen Area.',
     tips:
       'Latvia is part of Schengen, so the 90-day visa-free rule applies to eligible visitors. Riga’s Old Town is fully walkable, the Central Market is a must, and cheap buses reach the seaside town of Jūrmala in under an hour.',
   },
