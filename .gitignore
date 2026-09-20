@@ -1,0 +1,26 @@
+# Dependencies
+node_modules/
+.yarn/cache
+.yarn/install-state.gz
+
+# Build outputs
+.next/
+.build/
+tsconfig.tsbuildinfo
+
+# Secrets — NEVER commit .env
+.env
+.env.local
+.env.*.local
+
+# Platform-specific (Abacus)
+.abacus.donotdelete
+.deploy/
+.logs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Prisma
+prisma/migrations/
