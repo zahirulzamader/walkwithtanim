@@ -2,7 +2,7 @@ import { headers } from 'next/headers'
 
 // Canonical fallback used at build time and when no request headers are available.
 export const FALLBACK_SITE_URL =
-  process.env.NEXTAUTH_URL || 'https://walkwithtanim.abacusai.app'
+  process.env.NEXTAUTH_URL || process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000'
 
 /**
  * Resolve the live site origin at request time.
