@@ -3,7 +3,7 @@
 A personal travel & vlog portfolio site for Md Zahirul Islam (Tanim).  
 Built with **Next.js 16**, **Tailwind CSS**, **Prisma + PostgreSQL**, and **AWS S3**.
 
-Live site: [walkwithtanim.abacusai.app](https://walkwithtanim.abacusai.app)
+Live site: [https://walkwithtanim.vercel.app/](https://walkwithtanim.vercel.app/)
 
 ---
 
