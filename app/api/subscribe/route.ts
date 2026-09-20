@@ -5,6 +5,13 @@ import { prisma } from '@/lib/db'
 
 export async function POST(request: Request) {
   try {
+    if (!prisma) {
+      return NextResponse.json(
+        { success: false, message: 'Database not configured yet.' },
+        { status: 503 }
+      )
+    }
+
     const data = await request.json()
     const email = (data?.email ?? '').trim().toLowerCase()
 
@@ -15,7 +22,6 @@ export async function POST(request: Request) {
       )
     }
 
-    // Check if already subscribed
     const existing = await prisma.emailSubscriber.findUnique({
       where: { email },
     })
