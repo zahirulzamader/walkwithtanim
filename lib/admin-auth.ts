@@ -3,6 +3,9 @@ import { cookies } from 'next/headers'
 
 const COOKIE_NAME = 'wt_admin'
 const TOKEN_MESSAGE = 'walkwithtanim-admin-v1'
+// Fallback so admin login works out-of-the-box even when the hosting platform
+// has no JOURNAL_PASSCODE env var set. The env var still overrides this.
+const DEFAULT_PASSCODE = 'tanim2026'
 
 export function getAdminCookieName(): string {
   return COOKIE_NAME
@@ -11,8 +14,7 @@ export function getAdminCookieName(): string {
 // Deterministic token derived from the owner passcode. Only the server, which
 // knows the passcode, can produce it — so a valid cookie proves admin identity.
 export function makeAdminToken(): string | null {
-  const pass = process.env.JOURNAL_PASSCODE
-  if (!pass) return null
+  const pass = process.env.JOURNAL_PASSCODE || DEFAULT_PASSCODE
   return crypto.createHmac('sha256', pass).update(TOKEN_MESSAGE).digest('hex')
 }
 
@@ -28,8 +30,7 @@ function safeEqual(a: string, b: string): boolean {
 }
 
 export function verifyPasscode(passcode: string): boolean {
-  const expected = process.env.JOURNAL_PASSCODE ?? ''
-  if (!expected) return false
+  const expected = process.env.JOURNAL_PASSCODE || DEFAULT_PASSCODE
   return safeEqual(passcode, expected)
 }
 
