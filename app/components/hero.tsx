@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import Image from 'next/image'
 import { Sun, MapPin } from 'lucide-react'
 import { socialLinks } from './social-links'
+import { defaultContent, type HeroContent } from '@/lib/content/defaults'
 
 const slides = [
   { src: '/bangladesh/coxsbazar.jpg', name: "Cox's Bazar" },
@@ -18,7 +19,8 @@ const slides = [
 
 const BRIGHTNESS_KEY = 'wt_hero_brightness'
 
-export default function Hero() {
+export default function Hero({ content }: { content?: HeroContent }) {
+  const c = content ?? defaultContent.hero
   const [current, setCurrent] = useState(0)
   const [brightness, setBrightness] = useState(0.6)
 
@@ -27,6 +29,8 @@ export default function Hero() {
     const saved = localStorage.getItem(BRIGHTNESS_KEY)
     if (saved) {
       const n = parseFloat(saved)
+      // Restore the client-only preference after hydration.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       if (!Number.isNaN(n)) setBrightness(n)
     }
   }, [])
@@ -92,7 +96,7 @@ export default function Hero() {
           transition={{ duration: 0.6, type: 'spring' }}
           className="mx-auto mb-8 w-32 h-32 sm:w-40 sm:h-40 rounded-full ring-4 ring-primary/40 overflow-hidden shadow-2xl"
         >
-          <Image src="/logo.png" alt="Md Zahirul Islam" width={160} height={160} className="w-full h-full object-cover" priority />
+          <Image src="/logo.png" alt={c.name} width={160} height={160} className="w-full h-full object-cover" priority />
         </motion.div>
 
         <motion.h1
@@ -102,7 +106,7 @@ export default function Hero() {
           className="font-display text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight text-white mb-4"
           style={{ textShadow: '0 2px 24px rgba(0,0,0,0.6)' }}
         >
-          Md Zahirul Islam
+          {c.name}
         </motion.h1>
 
         <motion.p
@@ -112,7 +116,7 @@ export default function Hero() {
           className="text-primary font-display text-lg sm:text-xl md:text-2xl font-semibold mb-6 tracking-wide"
           style={{ textShadow: '0 2px 16px rgba(0,0,0,0.7)' }}
         >
-          Explorer · Storyteller · Influencer
+          {c.tagline}
         </motion.p>
 
         <motion.p
@@ -122,7 +126,7 @@ export default function Hero() {
           className="text-white/80 max-w-2xl mx-auto text-base sm:text-lg mb-10"
           style={{ textShadow: '0 1px 12px rgba(0,0,0,0.7)' }}
         >
-          From the shores of Bangladesh to the streets of Rome — sharing stories, cultures & adventures with the world
+          {c.description}
         </motion.p>
 
         {/* CTAs */}

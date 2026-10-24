@@ -35,3 +35,9 @@ model JournalEntry {
   tips         String   @default("")
   createdAt    DateTime @default(now())
 }
+
+model SiteContent {
+  section   String   @id
+  data      Json
+  updatedAt DateTime @updatedAt @default(now())
+}

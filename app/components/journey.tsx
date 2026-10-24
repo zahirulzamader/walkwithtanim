@@ -3,59 +3,10 @@
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import { MapPin, Calendar } from 'lucide-react'
+import { defaultContent, type JourneyContent } from '@/lib/content/defaults'
 
-const experiences = [
-  {
-    flag: '🇮🇹',
-    role: 'Desk & Tourist Management Assistant',
-    company: 'Ancient Roman Tours SRL',
-    location: 'Rome, Italy',
-    period: 'Jun 2026 – Present',
-    description: 'Managing tourist desk operations and assisting visitors with guided tour bookings across historic Rome.',
-  },
-  {
-    flag: '🇮🇹',
-    role: 'Executive Assistant',
-    company: 'National CAF Prenestina',
-    location: 'Rome, Italy',
-    period: 'Oct 2025 – Jun 2026',
-    description: 'Provided executive administrative support, handling fiscal assistance and documentation services.',
-  },
-  {
-    flag: '🇱🇻',
-    role: 'Hotel Receptionist',
-    company: 'Hotel Le Chevalier',
-    location: 'Riga, Latvia',
-    period: 'Feb – Aug 2025',
-    description: 'Front desk operations, guest relations, and hospitality management in a boutique hotel setting.',
-  },
-  {
-    flag: '🇱🇻',
-    role: 'Bartender & Waiter (Tourist Section)',
-    company: 'Chili Pizza',
-    location: 'Riga, Latvia',
-    period: 'Feb – Aug 2025',
-    description: 'Served international tourists, delivering warm hospitality and memorable dining experiences.',
-  },
-  {
-    flag: '🇧🇩',
-    role: 'Customer Service Officer',
-    company: 'Akashbari Holidays',
-    location: 'Dhaka, Bangladesh',
-    period: 'Sep 2023 – Sep 2024',
-    description: 'Managed customer inquiries and travel bookings, ensuring seamless holiday experiences.',
-  },
-  {
-    flag: '🇧🇩',
-    role: 'Visa Submission Officer',
-    company: 'VFS Global',
-    location: 'Dhaka, Bangladesh',
-    period: 'Mar – Sep 2023',
-    description: 'Processed visa applications with precision, assisting applicants through complex documentation requirements.',
-  },
-]
-
-export default function Journey() {
+export default function Journey({ content }: { content?: JourneyContent }) {
+  const c = content ?? defaultContent.journey
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.05 })
 
   return (
@@ -71,7 +22,7 @@ export default function Journey() {
             My <span className="text-primary">Journey</span>
           </h2>
           <p className="text-muted-foreground max-w-xl mx-auto">
-            A path woven across three countries, six roles, and countless experiences
+            {c.subtitle}
           </p>
         </motion.div>
 
@@ -80,7 +31,7 @@ export default function Journey() {
           {/* Center line */}
           <div className="absolute left-4 md:left-1/2 md:-translate-x-px top-0 bottom-0 w-0.5 bg-border" />
 
-          {experiences.map((exp, i) => {
+          {c.experiences.map((exp, i) => {
             const isLeft = i % 2 === 0
             return (
               <motion.div

@@ -9,14 +9,17 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { toast } from 'sonner'
 import { socialLinks } from './social-links'
+import { defaultContent, type ContactContent } from '@/lib/content/defaults'
 
-export default function Contact() {
+export default function Contact({ content }: { content?: ContactContent }) {
+  const c = content ?? defaultContent.contact
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 })
   const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' })
   const [loading, setLoading] = useState(false)
   const [sent, setSent] = useState(false)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setSent(false)
     setForm((prev) => ({ ...(prev ?? {}), [e.target.name]: e.target.value }))
   }
 
@@ -61,7 +64,7 @@ export default function Contact() {
             Get in <span className="text-primary">Touch</span>
           </h2>
           <p className="text-muted-foreground max-w-xl mx-auto">
-            Have a collaboration idea, brand proposal, or just want to say hi? Let&apos;s connect!
+            {c.subtitle}
           </p>
         </motion.div>
 
@@ -80,7 +83,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <p className="text-xs text-muted-foreground">Email</p>
-                  <p className="text-foreground font-medium text-sm" suppressHydrationWarning>self.mdzahirulislam@gmail.com</p>
+                  <p className="text-foreground font-medium text-sm" suppressHydrationWarning>{c.email}</p>
                 </div>
               </div>
               <div className="flex items-center gap-4">
@@ -89,7 +92,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <p className="text-xs text-muted-foreground">Phone</p>
-                  <p className="text-foreground font-medium text-sm" suppressHydrationWarning>(+39) 3921202060</p>
+                  <p className="text-foreground font-medium text-sm" suppressHydrationWarning>{c.phone}</p>
                 </div>
               </div>
               <div className="flex items-center gap-4">
@@ -98,7 +101,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <p className="text-xs text-muted-foreground">Location</p>
-                  <p className="text-foreground font-medium text-sm">Rome, Italy</p>
+                  <p className="text-foreground font-medium text-sm">{c.location}</p>
                 </div>
               </div>
             </div>
@@ -135,20 +138,20 @@ export default function Contact() {
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
                   <label className="text-xs text-muted-foreground mb-1 block">Name *</label>
-                  <Input name="name" value={form.name} onChange={handleChange} placeholder="Your name" required />
+                  <Input name="name" value={form.name} onChange={handleChange} placeholder="Your name" maxLength={120} required />
                 </div>
                 <div>
                   <label className="text-xs text-muted-foreground mb-1 block">Email *</label>
-                  <Input name="email" type="email" value={form.email} onChange={handleChange} placeholder="your@email.com" required />
+                  <Input name="email" type="email" value={form.email} onChange={handleChange} placeholder="your@email.com" maxLength={254} required />
                 </div>
               </div>
               <div>
                 <label className="text-xs text-muted-foreground mb-1 block">Subject</label>
-                <Input name="subject" value={form.subject} onChange={handleChange} placeholder="What's this about?" />
+                <Input name="subject" value={form.subject} onChange={handleChange} placeholder="What's this about?" maxLength={200} />
               </div>
               <div>
                 <label className="text-xs text-muted-foreground mb-1 block">Message *</label>
-                <Textarea name="message" value={form.message} onChange={handleChange} placeholder="Tell me what's on your mind..." rows={5} required />
+                <Textarea name="message" value={form.message} onChange={handleChange} placeholder="Tell me what's on your mind..." rows={5} maxLength={5000} required />
               </div>
               <Button type="submit" size="lg" className="w-full" disabled={loading || sent}>
                 {loading ? (

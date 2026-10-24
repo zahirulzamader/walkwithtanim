@@ -6,26 +6,14 @@ import {
   Smartphone, Users, PenTool, Monitor, Award, Globe, Headphones,
   Camera, ClipboardList, Languages,
 } from 'lucide-react'
+import { defaultContent, type SkillsContent } from '@/lib/content/defaults'
 
-const skills = [
-  { icon: Smartphone, label: 'Digital Communication' },
-  { icon: Camera, label: 'Content Creation' },
-  { icon: Users, label: 'Social Media Management' },
-  { icon: PenTool, label: 'Scriptwriting' },
-  { icon: Monitor, label: 'Microsoft Office Suite' },
-  { icon: Award, label: 'Team Leadership' },
-  { icon: Globe, label: 'Intercultural Communication' },
-  { icon: Headphones, label: 'Customer Service' },
-  { icon: ClipboardList, label: 'Organizational Planning' },
+const SKILL_ICONS = [
+  Smartphone, Camera, Users, PenTool, Monitor, Award, Globe, Headphones, ClipboardList,
 ]
 
-const languages = [
-  { name: 'Bengali', level: 'Native', percent: 100 },
-  { name: 'English', level: 'C1 – Proficient', percent: 90 },
-  { name: 'Italian', level: 'A1 – Beginner', percent: 20 },
-]
-
-export default function Skills() {
+export default function Skills({ content }: { content?: SkillsContent }) {
+  const c = content ?? defaultContent.skills
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 })
 
   return (
@@ -41,7 +29,7 @@ export default function Skills() {
             <span className="text-primary">Skills</span> & Languages
           </h2>
           <p className="text-muted-foreground max-w-xl mx-auto">
-            A blend of technical expertise and cross-cultural competence
+            {c.subtitle}
           </p>
         </motion.div>
 
@@ -52,19 +40,22 @@ export default function Skills() {
               <Award className="text-primary" size={22} /> Core Skills
             </h3>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-              {skills.map((skill, i) => (
-                <motion.div
-                  key={skill.label}
-                  initial={{ scale: 0.8, opacity: 0 }}
-                  animate={inView ? { scale: 1, opacity: 1 } : {}}
-                  transition={{ duration: 0.4, delay: i * 0.06 }}
-                  className="bg-card rounded-xl p-4 text-center hover:bg-primary/10 transition-colors group"
-                  style={{ boxShadow: 'var(--shadow-sm)' }}
-                >
-                  <skill.icon className="mx-auto mb-2 text-muted-foreground group-hover:text-primary transition-colors" size={24} />
-                  <p className="text-xs font-medium text-foreground/80">{skill.label}</p>
-                </motion.div>
-              ))}
+              {c.skills.map((label, i) => {
+                const Icon = SKILL_ICONS[i % SKILL_ICONS.length]
+                return (
+                  <motion.div
+                    key={label}
+                    initial={{ scale: 0.8, opacity: 0 }}
+                    animate={inView ? { scale: 1, opacity: 1 } : {}}
+                    transition={{ duration: 0.4, delay: i * 0.06 }}
+                    className="bg-card rounded-xl p-4 text-center hover:bg-primary/10 transition-colors group"
+                    style={{ boxShadow: 'var(--shadow-sm)' }}
+                  >
+                    <Icon className="mx-auto mb-2 text-muted-foreground group-hover:text-primary transition-colors" size={24} />
+                    <p className="text-xs font-medium text-foreground/80">{label}</p>
+                  </motion.div>
+                )
+              })}
             </div>
           </div>
 
@@ -74,7 +65,7 @@ export default function Skills() {
               <Languages className="text-primary" size={22} /> Languages
             </h3>
             <div className="space-y-6">
-              {languages.map((lang, i) => (
+              {c.languages.map((lang, i) => (
                 <motion.div
                   key={lang.name}
                   initial={{ x: 40, opacity: 0 }}

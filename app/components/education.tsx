@@ -3,32 +3,10 @@
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import { GraduationCap } from 'lucide-react'
+import { defaultContent, type EducationContent } from '@/lib/content/defaults'
 
-const educations = [
-  {
-    flag: '🇮🇹',
-    degree: 'Tourism Strategy, Cultural Heritage & Made in Italy',
-    institution: 'Università degli Studi di Roma Tor Vergata',
-    location: 'Rome, Italy',
-    years: '2025 – Present',
-  },
-  {
-    flag: '🇱🇻',
-    degree: "Master's in Philology & Applied Linguistics",
-    institution: 'Daugavpils University',
-    location: 'Latvia',
-    years: '2024 – 2025',
-  },
-  {
-    flag: '🇧🇩',
-    degree: 'BA (Hons) English Literature',
-    institution: 'National University – Adamjee Cantonment College',
-    location: 'Dhaka, Bangladesh',
-    years: '2017 – 2022',
-  },
-]
-
-export default function Education() {
+export default function Education({ content }: { content?: EducationContent }) {
+  const c = content ?? defaultContent.education
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 })
 
   return (
@@ -44,12 +22,12 @@ export default function Education() {
             <span className="text-primary">Education</span>
           </h2>
           <p className="text-muted-foreground max-w-xl mx-auto">
-            Academic foundations across three countries
+            {c.subtitle}
           </p>
         </motion.div>
 
         <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
-          {educations.map((edu, i) => (
+          {c.items.map((edu, i) => (
             <motion.div
               key={edu.institution}
               initial={{ y: 40, opacity: 0 }}

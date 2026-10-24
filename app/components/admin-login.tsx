@@ -1,7 +1,8 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Lock, LogOut, Loader2 } from 'lucide-react'
+import { Lock, LogOut, Loader2, Pencil } from 'lucide-react'
+import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -32,6 +33,8 @@ export default function AdminLogin() {
   }
 
   useEffect(() => {
+    // The request updates state asynchronously after this effect has returned.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     loadStatus()
   }, [])
 
@@ -101,9 +104,12 @@ export default function AdminLogin() {
               <DialogHeader>
                 <DialogTitle className="font-display">You&apos;re signed in</DialogTitle>
                 <DialogDescription>
-                  You have owner access. The &ldquo;Write Your Story&rdquo; button is visible only to you.
+                  You have owner access. Open the content editor to change any section of your site. The &ldquo;Write Your Story&rdquo; button is visible only to you.
                 </DialogDescription>
               </DialogHeader>
+              <Button asChild className="w-full gap-2 my-1">
+                <Link href="/admin"><Pencil size={16} /> Open content editor</Link>
+              </Button>
               <DialogFooter>
                 <Button variant="outline" onClick={() => setOpen(false)} disabled={busy}>
                   Close

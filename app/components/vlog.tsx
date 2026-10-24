@@ -7,8 +7,10 @@ import { Youtube, Instagram, Sparkles, Bell, Loader2, Check } from 'lucide-react
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { toast } from 'sonner'
+import { defaultContent, type VlogContent } from '@/lib/content/defaults'
 
-export default function Vlog() {
+export default function Vlog({ content }: { content?: VlogContent }) {
+  const c = content ?? defaultContent.vlog
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 })
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
@@ -54,7 +56,7 @@ export default function Vlog() {
             My Content <span className="text-primary">Universe</span>
           </h2>
           <p className="text-muted-foreground max-w-xl mx-auto">
-            Real stories. Real cultures. Real adventures.
+            {c.subtitle}
           </p>
         </motion.div>
 
@@ -73,9 +75,9 @@ export default function Vlog() {
             <div className="w-16 h-16 mx-auto mb-4 bg-red-500/10 rounded-full flex items-center justify-center">
               <Youtube className="text-red-500" size={32} />
             </div>
-            <h3 className="font-display text-xl font-bold text-foreground mb-2">Zahirul Explores</h3>
+            <h3 className="font-display text-xl font-bold text-foreground mb-2">{c.youtubeTitle}</h3>
             <p className="text-muted-foreground text-sm mb-4">
-              Travel vlogs, cultural deep-dives, and behind-the-scenes stories from my life across continents.
+              {c.youtubeDesc}
             </p>
             <Button variant="outline" className="border-red-500/50 text-red-400 hover:bg-red-500/10" disabled>
               <Bell size={16} className="mr-2" /> Subscribe
@@ -96,12 +98,12 @@ export default function Vlog() {
             <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-pink-500/10 to-purple-500/10 rounded-full flex items-center justify-center">
               <Instagram className="text-pink-500" size={32} />
             </div>
-            <h3 className="font-display text-xl font-bold text-foreground mb-2">@walk_with_tanim</h3>
+            <h3 className="font-display text-xl font-bold text-foreground mb-2">{c.instaHandle}</h3>
             <p className="text-muted-foreground text-sm mb-4">
-              Short-form content, travel reels, and daily life snippets from Rome and beyond.
+              {c.instaDesc}
             </p>
             <Button asChild variant="outline" className="border-pink-500/50 text-pink-400 hover:bg-pink-500/10">
-              <a href="https://www.instagram.com/walk_with_tanim" target="_blank" rel="noopener noreferrer">
+              <a href={c.instaUrl} target="_blank" rel="noopener noreferrer">
                 <Instagram size={16} className="mr-2" /> Follow on Instagram
               </a>
             </Button>
@@ -124,6 +126,7 @@ export default function Vlog() {
             <Input
               type="email"
               placeholder="your@email.com"
+              maxLength={254}
               value={email}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
               className="flex-1"

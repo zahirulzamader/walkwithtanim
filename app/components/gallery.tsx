@@ -12,51 +12,11 @@ import {
   CarouselPrevious,
   CarouselNext,
 } from '@/components/ui/carousel'
+import { defaultContent, type GalleryContent } from '@/lib/content/defaults'
 
-const destinations = [
-  {
-    name: 'Rome',
-    flag: '🇮🇹',
-    image: 'https://images.pexels.com/photos/18602876/pexels-photo-18602876/free-photo-of-colosseum-in-rome.jpeg',
-  },
-  {
-    name: 'Vatican City',
-    flag: '🇻🇦',
-    image: 'https://upload.wikimedia.org/wikipedia/commons/d/d6/St_Peter%27s_Square%2C_Vatican_City_-_April_2007.jpg',
-  },
-  {
-    name: 'Madrid',
-    flag: '🇪🇸',
-    image: '/destinations/madrid.jpg',
-  },
-  {
-    name: 'Riga',
-    flag: '🇱🇻',
-    image: 'https://images.pexels.com/photos/37375886/pexels-photo-37375886/free-photo-of-scenic-view-of-riga-s-old-town-and-daugava-river.jpeg',
-  },
-  {
-    name: 'Kaunas',
-    flag: '🇱🇹',
-    image: '/destinations/kaunas.jpg',
-  },
-  {
-    name: 'Dhaka',
-    flag: '🇧🇩',
-    image: 'https://images.pexels.com/videos/33267203/4k-drone-video-dhaka-4k-drone-view-of-dhaka-city-dhaka-4k-drone-dhaka-4k-drone-footage-33267203.jpeg',
-  },
-  {
-    name: 'Bhola',
-    flag: '🇧🇩',
-    image: 'https://images.pexels.com/videos/34287257/4k-4k-bangladeshi-drone-footage-4k-video-bhola-34287257.jpeg',
-  },
-  {
-    name: 'Next Destination',
-    flag: '✈️',
-    image: 'https://cdn.abacus.ai/images/04fc69a5-4f9e-4fdf-aa6f-8fb51e125e7d.png',
-  },
-]
-
-export default function Gallery() {
+export default function Gallery({ content }: { content?: GalleryContent }) {
+  const c = content ?? defaultContent.gallery
+  const destinations = c.destinations
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.05 })
 
   return (
@@ -72,7 +32,7 @@ export default function Gallery() {
             My <span className="text-primary">World</span>
           </h2>
           <p className="text-muted-foreground max-w-xl mx-auto">
-            Places that shaped who I am today — swipe through my journey
+            {c.subtitle}
           </p>
         </motion.div>
 
@@ -119,7 +79,7 @@ export default function Gallery() {
           className="text-center mt-12"
         >
           <p className="text-muted-foreground text-sm mb-4">
-            More photos coming soon — follow me on Instagram for daily updates
+            {c.footerNote}
           </p>
           <Button asChild variant="outline" className="border-pink-500/50 text-pink-400 hover:bg-pink-500/10">
             <a href="https://www.instagram.com/walk_with_tanim" target="_blank" rel="noopener noreferrer">
