@@ -47,9 +47,12 @@ export type VlogContent = {
   subtitle: string
   youtubeTitle: string
   youtubeDesc: string
+  youtubeUrl: string
   instaHandle: string
   instaDesc: string
   instaUrl: string
+  partnersTitle: string
+  partners: string[]
 }
 export type GalleryContent = {
   subtitle: string
@@ -227,10 +230,24 @@ export const defaultContent: SiteContent = {
     youtubeTitle: 'Zahirul Explores',
     youtubeDesc:
       'Travel vlogs, cultural deep-dives, and behind-the-scenes stories from my life across continents.',
+    youtubeUrl: 'https://www.youtube.com/@walkwithtanim',
     instaHandle: '@walk_with_tanim',
     instaDesc:
       'Short-form content, travel reels, and daily life snippets from Rome and beyond.',
     instaUrl: 'https://www.instagram.com/walk_with_tanim',
+    partnersTitle: 'Brands & Partners I Travel With',
+    partners: [
+      'Agoda',
+      'Booking.com',
+      'Expedia',
+      'Airbnb',
+      'Nike',
+      'The North Face',
+      'Columbia',
+      'Decathlon',
+      'Trek Bikes',
+      'GoPro',
+    ],
   },
   gallery: {
     subtitle: 'Places that shaped who I am today — swipe through my journey',

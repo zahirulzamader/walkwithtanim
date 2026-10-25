@@ -527,9 +527,26 @@ function SectionEditor({
         <AreaField label="Subtitle" value={d.subtitle} onChange={(v) => setSection('vlog', { ...d, subtitle: v })} />
         <TextField label="YouTube card – title" value={d.youtubeTitle} onChange={(v) => setSection('vlog', { ...d, youtubeTitle: v })} />
         <AreaField label="YouTube card – description" value={d.youtubeDesc} onChange={(v) => setSection('vlog', { ...d, youtubeDesc: v })} />
+        <TextField label="YouTube link (URL) – Subscribe button" value={d.youtubeUrl} onChange={(v) => setSection('vlog', { ...d, youtubeUrl: v })} />
         <TextField label="Instagram card – handle" value={d.instaHandle} onChange={(v) => setSection('vlog', { ...d, instaHandle: v })} />
         <AreaField label="Instagram card – description" value={d.instaDesc} onChange={(v) => setSection('vlog', { ...d, instaDesc: v })} />
         <TextField label="Instagram link (URL)" value={d.instaUrl} onChange={(v) => setSection('vlog', { ...d, instaUrl: v })} />
+
+        <div className="mt-6 border-t border-border pt-6">
+          <TextField label="Brands strip – heading" value={d.partnersTitle} onChange={(v) => setSection('vlog', { ...d, partnersTitle: v })} />
+          <Label className="mb-2 mt-4 block text-xs">Brand / sponsor names (auto-scrolling)</Label>
+          {d.partners.map((p, i) => (
+            <div key={i} className="flex gap-2 mb-2">
+              <Input value={p} onChange={(e) => { const n = [...d.partners]; n[i] = e.target.value; setSection('vlog', { ...d, partners: n }) }} />
+              <Button variant="ghost" size="sm" onClick={() => setSection('vlog', { ...d, partners: d.partners.filter((_, j) => j !== i) })} className="text-red-400 hover:text-red-500 hover:bg-red-500/10">
+                <Trash2 size={14} />
+              </Button>
+            </div>
+          ))}
+          <Button variant="outline" size="sm" className="gap-1" onClick={() => setSection('vlog', { ...d, partners: [...d.partners, ''] })}>
+            <Plus size={14} /> Add brand
+          </Button>
+        </div>
       </>
     )
   }

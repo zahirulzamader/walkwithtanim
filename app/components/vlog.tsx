@@ -79,8 +79,10 @@ export default function Vlog({ content }: { content?: VlogContent }) {
             <p className="text-muted-foreground text-sm mb-4">
               {c.youtubeDesc}
             </p>
-            <Button variant="outline" className="border-red-500/50 text-red-400 hover:bg-red-500/10" disabled>
-              <Bell size={16} className="mr-2" /> Subscribe
+            <Button asChild variant="outline" className="border-red-500/50 text-red-400 hover:bg-red-500/10">
+              <a href={c.youtubeUrl} target="_blank" rel="noopener noreferrer">
+                <Bell size={16} className="mr-2" /> Subscribe
+              </a>
             </Button>
           </motion.div>
 
@@ -147,6 +149,39 @@ export default function Vlog({ content }: { content?: VlogContent }) {
             </Button>
           </div>
         </motion.div>
+
+        {/* Brands & partners marquee */}
+        {c.partners && c.partners.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={inView ? { opacity: 1 } : {}}
+            transition={{ duration: 0.6, delay: 0.5 }}
+            className="mt-16"
+          >
+            <p className="text-center text-xs sm:text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground mb-8">
+              {c.partnersTitle}
+            </p>
+            <div className="marquee group relative overflow-hidden">
+              {/* edge fades */}
+              <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-16 sm:w-28 bg-gradient-to-r from-secondary/60 to-transparent" />
+              <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-16 sm:w-28 bg-gradient-to-l from-secondary/60 to-transparent" />
+              <div className="marquee-track flex w-max items-center gap-4 sm:gap-6">
+                {[...c.partners, ...c.partners].map((brand, i) => (
+                  <div
+                    key={i}
+                    aria-hidden={i >= c.partners.length}
+                    className="flex h-16 shrink-0 items-center justify-center rounded-xl border border-border/60 bg-card px-6 sm:px-8"
+                    style={{ boxShadow: 'var(--shadow-sm)' }}
+                  >
+                    <span className="font-display text-lg sm:text-xl font-bold text-foreground/80 whitespace-nowrap transition-colors group-hover:text-foreground">
+                      {brand}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        )}
       </div>
     </section>
   )

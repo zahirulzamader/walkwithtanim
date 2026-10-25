@@ -74,6 +74,10 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Smoothly fade accent-driven colors as the palette auto-cycles every 10s.
+   A long, gentle fade makes the transition feel seamless. Elements that declare
+   their own transition utilities (transition-colors / transition-all) keep their
+   own snappy timing for hover/focus; this only fills in elements without one. */
 * {
   transition-property: color, background-color, border-color, fill, stroke;
   transition-duration: 2500ms;
@@ -96,4 +100,19 @@ html {
 ::-webkit-scrollbar-thumb:hover {
   background: hsl(var(--primary));
   filter: brightness(1.15);
+}
+/* Brands & partners auto-scrolling marquee (left -> right, seamless) */
+@keyframes marquee-ltr {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}
+.marquee-track {
+  animation: marquee-ltr 35s linear infinite;
+  will-change: transform;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; }
 }
