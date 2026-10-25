@@ -21,7 +21,7 @@ export type SocialLink = {
 
 // Live social profiles for Md Zahirul Islam ("Walk with Tanim").
 export const socialLinks: SocialLink[] = [
-  { label: 'YouTube', href: '#', icon: SiYoutube, color: '#FF0000', comingSoon: true },
+  { label: 'YouTube', href: 'https://www.youtube.com/@walkwithtanim', icon: SiYoutube, color: '#FF0000' },
   { label: 'Instagram', href: 'https://www.instagram.com/walk_with_tanim', icon: SiInstagram, color: '#E4405F' },
   { label: 'Facebook', href: 'https://www.facebook.com/zahirul.zamader', icon: SiFacebook, color: '#1877F2' },
   { label: 'Facebook Page', href: 'https://www.facebook.com/profile.php?id=61567227817028', icon: SiFacebook, color: '#1877F2' },

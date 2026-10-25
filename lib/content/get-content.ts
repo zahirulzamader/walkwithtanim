@@ -23,6 +23,15 @@ export async function getAllContent(): Promise<SiteContent> {
         result[key] = { ...(result[key] as object), ...saved } as never
       }
     }
+    // Defensive: coerce any legacy string[] partners into { name, logo } objects.
+    const vlog = result.vlog as { partners?: unknown }
+    if (Array.isArray(vlog?.partners)) {
+      vlog.partners = vlog.partners.map((p: unknown) =>
+        typeof p === 'string'
+          ? { name: p, logo: '' }
+          : { name: (p as any)?.name ?? '', logo: (p as any)?.logo ?? '' }
+      ) as never
+    }
   } catch (err: any) {
     console.error('getAllContent error:', err?.message ?? err)
   }

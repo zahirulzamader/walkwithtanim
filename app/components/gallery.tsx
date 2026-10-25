@@ -1,5 +1,6 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import Image from 'next/image'
@@ -11,6 +12,7 @@ import {
   CarouselItem,
   CarouselPrevious,
   CarouselNext,
+  type CarouselApi,
 } from '@/components/ui/carousel'
 import { defaultContent, type GalleryContent } from '@/lib/content/defaults'
 
@@ -18,6 +20,13 @@ export default function Gallery({ content }: { content?: GalleryContent }) {
   const c = content ?? defaultContent.gallery
   const destinations = c.destinations
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.05 })
+  const [api, setApi] = useState<CarouselApi>()
+
+  useEffect(() => {
+    if (!api) return
+    const id = setInterval(() => api.scrollNext(), 3500)
+    return () => clearInterval(id)
+  }, [api])
 
   return (
     <section id="gallery" className="py-20 sm:py-32">
@@ -41,7 +50,7 @@ export default function Gallery({ content }: { content?: GalleryContent }) {
           animate={inView ? { y: 0, opacity: 1 } : {}}
           transition={{ duration: 0.6, delay: 0.1 }}
         >
-          <Carousel opts={{ loop: true, align: 'start' }} className="w-full">
+          <Carousel setApi={setApi} opts={{ loop: true, align: 'start' }} className="w-full">
             <CarouselContent className="-ml-4">
               {destinations.map((dest) => (
                 <CarouselItem key={dest.name} className="pl-4 basis-full sm:basis-1/2 lg:basis-1/3">

@@ -24,6 +24,7 @@ import {
   CarouselItem,
   CarouselPrevious,
   CarouselNext,
+  type CarouselApi,
 } from '@/components/ui/carousel'
 import { toast } from 'sonner'
 
@@ -117,6 +118,13 @@ export default function TravelJournal() {
   const [saving, setSaving] = useState(false)
   const [isAdmin, setIsAdmin] = useState(false)
   const [uploading, setUploading] = useState(false)
+  const [api, setApi] = useState<CarouselApi>()
+
+  useEffect(() => {
+    if (!api) return
+    const id = setInterval(() => api.scrollNext(), 120000)
+    return () => clearInterval(id)
+  }, [api])
 
   const loadEntries = async () => {
     try {
@@ -151,8 +159,9 @@ export default function TravelJournal() {
   }
 
   useEffect(() => {
-    loadEntries()
-    loadAdmin()
+    // These requests update state asynchronously after their responses arrive.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    void Promise.all([loadEntries(), loadAdmin()])
   }, [])
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -340,7 +349,7 @@ export default function TravelJournal() {
           animate={inView ? { y: 0, opacity: 1 } : {}}
           transition={{ duration: 0.6, delay: 0.1 }}
         >
-          <Carousel opts={{ loop: true }} className="w-full">
+          <Carousel setApi={setApi} opts={{ loop: true }} className="w-full">
             <CarouselContent>
               {entries.map((entry, idx) => (
                 <CarouselItem key={`${entry.place}-${idx}`}>

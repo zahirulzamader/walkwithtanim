@@ -43,6 +43,7 @@ export type SkillsContent = {
   skills: string[]
   languages: LanguageItem[]
 }
+export type Partner = { name: string; logo: string }
 export type VlogContent = {
   subtitle: string
   youtubeTitle: string
@@ -52,7 +53,7 @@ export type VlogContent = {
   instaDesc: string
   instaUrl: string
   partnersTitle: string
-  partners: string[]
+  partners: Partner[]
 }
 export type GalleryContent = {
   subtitle: string
@@ -227,7 +228,7 @@ export const defaultContent: SiteContent = {
   },
   vlog: {
     subtitle: 'Real stories. Real cultures. Real adventures.',
-    youtubeTitle: 'Zahirul Explores',
+    youtubeTitle: 'Walk With Tanim',
     youtubeDesc:
       'Travel vlogs, cultural deep-dives, and behind-the-scenes stories from my life across continents.',
     youtubeUrl: 'https://www.youtube.com/@walkwithtanim',
@@ -237,16 +238,16 @@ export const defaultContent: SiteContent = {
     instaUrl: 'https://www.instagram.com/walk_with_tanim',
     partnersTitle: 'Brands & Partners I Travel With',
     partners: [
-      'Agoda',
-      'Booking.com',
-      'Expedia',
-      'Airbnb',
-      'Nike',
-      'The North Face',
-      'Columbia',
-      'Decathlon',
-      'Trek Bikes',
-      'GoPro',
+      { name: 'Agoda', logo: 'https://cdn.abacus.ai/images/5bc9d522-fa98-477f-9e18-342f75a4706d.png' },
+      { name: 'Booking.com', logo: 'https://cdn.abacus.ai/images/20902489-acb7-4783-8452-aa279e4c6dbe.png' },
+      { name: 'Expedia', logo: 'https://cdn.abacus.ai/images/191ef7bf-eae8-4cf6-800b-95ff59c80bb0.png' },
+      { name: 'Airbnb', logo: 'https://cdn.abacus.ai/images/ca04e94e-ddb6-4b84-aa5b-ea15e0958c04.png' },
+      { name: 'Nike', logo: 'https://cdn.abacus.ai/images/665cc64a-71a4-4df4-b07e-09525dc199d8.png' },
+      { name: 'The North Face', logo: 'https://cdn.abacus.ai/images/27c06a45-ef53-48f0-9cf1-8c84d12b0cd3.png' },
+      { name: 'Columbia', logo: 'https://cdn.abacus.ai/images/cd05d360-5d8c-408c-a996-8a6c416f330b.png' },
+      { name: 'Decathlon', logo: 'https://cdn.abacus.ai/images/da3e2551-8e12-4dc8-9e53-4f8110a60c9b.png' },
+      { name: 'Trek', logo: 'https://cdn.abacus.ai/images/932a8179-1b72-42d3-8d59-f1e2ecd4a6d8.png' },
+      { name: 'GoPro', logo: 'https://cdn.abacus.ai/images/0b93efc0-77e5-4e6d-93d5-4ed8724392c6.png' },
     ],
   },
   gallery: {
@@ -265,7 +266,7 @@ export const defaultContent: SiteContent = {
   },
   contact: {
     subtitle: "Have a collaboration idea, brand proposal, or just want to say hi? Let's connect!",
-    email: 'self.mdzahirulislam@gmail.com',
+    email: 'zahirulislamtanim@gmail.com',
     phone: '(+39) 3921202060',
     location: 'Rome, Italy',
   },

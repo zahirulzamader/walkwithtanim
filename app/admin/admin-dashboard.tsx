@@ -534,16 +534,14 @@ function SectionEditor({
 
         <div className="mt-6 border-t border-border pt-6">
           <TextField label="Brands strip – heading" value={d.partnersTitle} onChange={(v) => setSection('vlog', { ...d, partnersTitle: v })} />
-          <Label className="mb-2 mt-4 block text-xs">Brand / sponsor names (auto-scrolling)</Label>
+          <Label className="mb-2 mt-4 block text-xs">Brands / sponsors (auto-scrolling logos)</Label>
           {d.partners.map((p, i) => (
-            <div key={i} className="flex gap-2 mb-2">
-              <Input value={p} onChange={(e) => { const n = [...d.partners]; n[i] = e.target.value; setSection('vlog', { ...d, partners: n }) }} />
-              <Button variant="ghost" size="sm" onClick={() => setSection('vlog', { ...d, partners: d.partners.filter((_, j) => j !== i) })} className="text-red-400 hover:text-red-500 hover:bg-red-500/10">
-                <Trash2 size={14} />
-              </Button>
-            </div>
+            <RowCard key={i} index={i} onRemove={() => setSection('vlog', { ...d, partners: d.partners.filter((_, j) => j !== i) })}>
+              <TextField label="Brand name" value={p.name} onChange={(v) => { const n = [...d.partners]; n[i] = { ...p, name: v }; setSection('vlog', { ...d, partners: n }) }} />
+              <ImageField label="Logo" value={p.logo} uploadImage={uploadImage} onChange={(v) => { const n = [...d.partners]; n[i] = { ...p, logo: v }; setSection('vlog', { ...d, partners: n }) }} />
+            </RowCard>
           ))}
-          <Button variant="outline" size="sm" className="gap-1" onClick={() => setSection('vlog', { ...d, partners: [...d.partners, ''] })}>
+          <Button variant="outline" size="sm" className="gap-1" onClick={() => setSection('vlog', { ...d, partners: [...d.partners, { name: '', logo: '' }] })}>
             <Plus size={14} /> Add brand
           </Button>
         </div>

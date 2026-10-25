@@ -69,8 +69,8 @@ export default function Vlog({ content }: { content?: VlogContent }) {
             className="bg-card rounded-xl p-8 text-center relative overflow-hidden"
             style={{ boxShadow: 'var(--shadow-md)' }}
           >
-            <div className="absolute top-3 right-3 bg-red-500/20 text-red-400 text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1">
-              <Sparkles size={12} /> Coming Soon
+            <div className="absolute top-3 right-3 bg-green-500/20 text-green-400 text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1">
+              <Sparkles size={12} /> Live Now
             </div>
             <div className="w-16 h-16 mx-auto mb-4 bg-red-500/10 rounded-full flex items-center justify-center">
               <Youtube className="text-red-500" size={32} />
@@ -165,19 +165,38 @@ export default function Vlog({ content }: { content?: VlogContent }) {
               {/* edge fades */}
               <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-16 sm:w-28 bg-gradient-to-r from-secondary/60 to-transparent" />
               <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-16 sm:w-28 bg-gradient-to-l from-secondary/60 to-transparent" />
-              <div className="marquee-track flex w-max items-center gap-4 sm:gap-6">
-                {[...c.partners, ...c.partners].map((brand, i) => (
-                  <div
-                    key={i}
-                    aria-hidden={i >= c.partners.length}
-                    className="flex h-16 shrink-0 items-center justify-center rounded-xl border border-border/60 bg-card px-6 sm:px-8"
-                    style={{ boxShadow: 'var(--shadow-sm)' }}
-                  >
-                    <span className="font-display text-lg sm:text-xl font-bold text-foreground/80 whitespace-nowrap transition-colors group-hover:text-foreground">
-                      {brand}
-                    </span>
-                  </div>
-                ))}
+              <div className="marquee-track flex w-max items-end gap-5 sm:gap-8">
+                {[...c.partners, ...c.partners].map((raw, i) => {
+                  const brand = typeof raw === 'string' ? { name: raw, logo: '' } : (raw ?? { name: '', logo: '' })
+                  return (
+                    <div
+                      key={i}
+                      aria-hidden={i >= c.partners.length}
+                      className="flex shrink-0 flex-col items-center gap-2"
+                    >
+                      <div
+                        className="flex h-16 w-32 sm:h-20 sm:w-40 items-center justify-center rounded-xl bg-white px-4"
+                        style={{ boxShadow: 'var(--shadow-sm)' }}
+                      >
+                        {brand.logo ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img
+                            src={brand.logo}
+                            alt={brand.name}
+                            className="max-h-9 sm:max-h-11 w-auto max-w-full object-contain"
+                          />
+                        ) : (
+                          <span className="font-display text-base sm:text-lg font-bold text-gray-800 text-center">
+                            {brand.name}
+                          </span>
+                        )}
+                      </div>
+                      <span className="text-xs sm:text-sm font-medium text-foreground/70 whitespace-nowrap">
+                        {brand.name}
+                      </span>
+                    </div>
+                  )
+                })}
               </div>
             </div>
           </motion.div>
