@@ -6,13 +6,6 @@ import { prisma } from '@/lib/db'
 
 export async function POST(request: Request) {
   try {
-    if (!prisma) {
-      return NextResponse.json(
-        { success: false, message: 'Database not configured yet.' },
-        { status: 503 }
-      )
-    }
-
     const payload: unknown = await request.json().catch(() => null)
     if (!payload || typeof payload !== 'object' || Array.isArray(payload)) {
       return NextResponse.json(
@@ -35,26 +28,31 @@ export async function POST(request: Request) {
       )
     }
 
-    const existing = await prisma.emailSubscriber.findUnique({
-      where: { email },
-    })
-
-    if (existing) {
-      return NextResponse.json({ success: true, message: 'Already subscribed!' })
-    }
-
-    try {
-      await prisma.emailSubscriber.create({
-        data: { email },
+    // Save to the database when one is connected. When there is no database
+    // (e.g. on a host without DATABASE_URL set), skip saving and still notify
+    // the owner by email so no subscriber is lost.
+    if (prisma) {
+      const existing = await prisma.emailSubscriber.findUnique({
+        where: { email },
       })
-    } catch (err) {
-      if (
-        err instanceof Prisma.PrismaClientKnownRequestError &&
-        err.code === 'P2002'
-      ) {
+
+      if (existing) {
         return NextResponse.json({ success: true, message: 'Already subscribed!' })
       }
-      throw err
+
+      try {
+        await prisma.emailSubscriber.create({
+          data: { email },
+        })
+      } catch (err) {
+        if (
+          err instanceof Prisma.PrismaClientKnownRequestError &&
+          err.code === 'P2002'
+        ) {
+          return NextResponse.json({ success: true, message: 'Already subscribed!' })
+        }
+        throw err
+      }
     }
 
     // Notify the owner that a new person subscribed (best-effort, never blocks subscribe)
@@ -63,6 +61,7 @@ export async function POST(request: Request) {
         process.env.NOTIF_ID_NEW_SUBSCRIBER &&
         process.env.WEB_APP_ID
     )
+    let notificationSent = false
     if (emailConfigured) {
       try {
         const appUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000'
@@ -97,9 +96,24 @@ export async function POST(request: Request) {
             sender_alias: 'Walk With Tanim',
           }),
         })
+        notificationSent = true
       } catch (emailErr: any) {
         console.error('Subscriber notification failed:', emailErr?.message ?? emailErr)
       }
+    }
+
+    // If nothing persisted the subscriber (no database) AND no email went out,
+    // tell the user honestly instead of a false success.
+    if (!prisma && !notificationSent) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: emailConfigured
+            ? 'Could not complete your subscription. Please try again.'
+            : 'Subscription is not configured yet.',
+        },
+        { status: emailConfigured ? 502 : 503 }
+      )
     }
 
     return NextResponse.json({ success: true, message: 'Subscribed successfully!' })
